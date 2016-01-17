@@ -1,0 +1,35 @@
+<project name="xproxy" basedir="." default="all">
+
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="bin" />
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" encoding="GBK" />
+	</target>
+
+	<target name="dist" depends="compile">
+		<jar destfile="${ant.project.name}.jar" basedir="${build.dir}" manifest="${src.dir}/MANIFEST.MF">
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="all" depends="dist,clean" />
+	
+	<target name="run">
+		<java jar="xproxy.jar" fork="true">
+			<arg line="cfg.properties" />
+			<jvmarg value="-XX:MaxDirectMemorySize=500m"/>
+		</java>
+	</target>
+	
+</project>
+
+
+
